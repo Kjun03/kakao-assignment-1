@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Todo List</title>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div class ="todo-container">
+            <h1>Minimal Todo</h1>
+            <div class="date-navigator">
+                <button id="prev-date-btn" class="nav-btn" aria-label="이전 날짜">&lt;</button>
+                <h2 id="current-date-display"></h2>
+                <button id="next-date-btn" class="nav-btn" aria-label="다음 날짜">&gt;</button>
+            </div>
+            <form id="todo-form">
+                <input type = "text" id="todo-input" placeholder="새로운 할일을 입력하세요" autocomplete="off">
+                <button type="submit" id = "add-button">추가</button>
+            </form>
+            <div id="filter-tabs" class ="filter-tabs">
+                <button class="filter-btn active" data-filter="all">전체</button>   
+                <button class="filter-btn" data-filter="active">진행중</button>
+                <button class="filter-btn" data-filter="completed">완료</button>
+            </div>
+            
+            <ul id="todo-list"></ul>
+        </div>
+        <script src="app.js"></script>
+    </body>
+</html>
