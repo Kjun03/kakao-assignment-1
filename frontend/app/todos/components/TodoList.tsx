@@ -6,22 +6,54 @@ import TodoItem from "./TodoItem";
 type Todo = {
   id: number;
   title: string;
-  completed: boolean;
+  completed: boolean; // 기준 이름: completed
 };
 
 export default function TodoList({ initialTodos }: { initialTodos: Todo[] }) {
   const [todos, setTodos] = useState(initialTodos);
 
-  const handleToggle = (id: number) => {
-    setTodos((prev) =>
-      prev.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+  // 1. id 타입을 number로 수정
+  const handleToggle = async (id: number, currentStatus: boolean) => {
+    try {
+      const response = await fetch(`/api/todos/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // 2. 백엔드로 보내는 키값도 completed로 통일 (FastAPI 설정에 따라 다를 수 있음)
+        body: JSON.stringify({ completed: !currentStatus }), 
+      });
+
+      if (response.ok) {
+        setTodos(
+          todos.map((todo) =>
+            // 3. todo.isCompleted 대신 todo.completed 사용
+            todo.id === id ? { ...todo, completed: !todo.completed } : todo
+          )
+        );
+      } else {
+        alert("상태 변경에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("상태 변경 중 에러 발생:", error);
+    }
   };
 
-  const handleDelete = (id: number) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  // 4. id 타입을 number로 수정
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await fetch(`/api/todos/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setTodos(todos.filter((todo) => todo.id !== id));
+      } else {
+        alert("삭제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("삭제 중 에러 발생:", error);
+    }
   };
 
   return (

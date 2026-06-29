@@ -9,7 +9,7 @@ type Todo = {
 };
 type TodoItemProps = {
   todo: Todo;
-  onToggle: (id: number) => void;
+  onToggle: (id: number, currentStatus: boolean) => void;
   onDelete: (id: number) => void;
 };
 
@@ -30,7 +30,7 @@ export default function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
 
       <div className="flex gap-1.5 items-center">
         <button
-          onClick={() => onToggle(todo.id)}
+          onClick={() => onToggle(todo.id, todo.completed)}
           className={`px-2.5 py-1.5 rounded-md text-xs font-semibold cursor-pointer transition-all duration-200 ${
             todo.completed
               ? "bg-[#672be0] text-white"
